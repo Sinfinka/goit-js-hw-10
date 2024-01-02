@@ -64,8 +64,8 @@ const options = {
 flatpickr(datePicker, options);
 
 startBtn.addEventListener('click', () => {
-  const now = new Date().getTime();
-  const timeDifference = userSelectedDate.getTime() - now;
+  const presentTime = new Date().getTime();
+  const timeDifference = userSelectedDate.getTime() - presentTime;
 
   if (timeDifference > 0) {
     startCountdown(timeDifference);
