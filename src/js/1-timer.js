@@ -15,8 +15,6 @@ iziToast.settings({
   close: true,
 });
 
-const TIMER_STORAGE_KEY = 'userSelectedDate';
-const TIMER_RUNNING_KEY = 'isRunning';
 const datePicker = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
 const resetBtn = document.querySelector('[data-reset]');
@@ -29,23 +27,13 @@ const timeElements = {};
 startBtn.disabled = true;
 resetBtn.disabled = true;
 
-let isTimerRunning;
 let userSelectedDate;
 let countdownInterval;
-
-const storedDate = localStorage.getItem(TIMER_STORAGE_KEY);
-isTimerRunning = localStorage.getItem(TIMER_RUNNING_KEY) === 'true';
-
-if (storedDate) {
-  userSelectedDate = new Date(parseInt(storedDate));
-  startBtn.disabled = !isTimerRunning;
-  resetBtn.disabled = !isTimerRunning;
-}
 
 const options = {
   enableTime: true,
   time_24hr: true,
-  defaultDate: userSelectedDate || new Date(),
+  defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
@@ -55,8 +43,6 @@ const options = {
       return;
     } else {
       startBtn.disabled = false;
-      localStorage.setItem(TIMER_STORAGE_KEY, userSelectedDate.getTime());
-      localStorage.setItem('isRunning', true);
     }
   },
 };
@@ -91,8 +77,6 @@ function startCountdown(timeDifference) {
 
 function resetTimer() {
   clearInterval(countdownInterval);
-  localStorage.removeItem(TIMER_STORAGE_KEY);
-  localStorage.removeItem('isRunning');
 
   Object.values(timeElements).forEach(element => (element.textContent = '00'));
 
